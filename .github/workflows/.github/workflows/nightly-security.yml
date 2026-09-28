@@ -1,0 +1,26 @@
+name: Nightly Security Scan
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run security scan
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Analyze code
+        uses: github/codeql-action/analyze@v3
